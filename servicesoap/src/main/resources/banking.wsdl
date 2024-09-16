@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+             xmlns:xs="http://www.w3.org/2001/XMLSchema"
+             xmlns:tns="http://example.com/servicesoap"
+             targetNamespace="http://example.com/banking"
+             name="ServiceSoap">
+
+    <message name="GetBalanceRequest">
+        <part name="accountId" type="xs:long"/>
+    </message>
+    <message name="GetBalanceResponse">
+        <part name="balance" type="xs:decimal"/>
+    </message>
+
+    <message name="GetTransactionsRequest">
+        <part name="accountId" type="xs:long"/>
+        <part name="pageNumber" type="xs:int"/>
+        <part name="pageSize" type="xs:int"/>
+    </message>
+    <message name="GetTransactionsResponse">
+        <part name="transactions" type="xs:string"/>
+    </message>
+
+    <message name="TransferFundsRequest">
+        <part name="creditor" type="xs:long"/>
+        <part name="debtor" type="xs:long"/>
+        <part name="amount" type="xs:decimal"/>
+        <part name="currency" type="xs:string"/>
+    </message>
+    <message name="TransferFundsResponse">
+        <part name="status" type="xs:string"/>
+    </message>
+
+    <portType name="ServiceSoapPortType">
+        <operation name="getBalance">
+            <input message="tns:GetBalanceRequest"/>
+            <output message="tns:GetBalanceResponse"/>
+        </operation>
+        <operation name="getTransactions">
+            <input message="tns:GetTransactionsRequest"/>
+            <output message="tns:GetTransactionsResponse"/>
+        </operation>
+        <operation name="transferFunds">
+            <input message="tns:TransferFundsRequest"/>
+            <output message="tns:TransferFundsResponse"/>
+        </operation>
+    </portType>
+
+    <binding name="ServiceSoapBinding" type="tns:ServiceSoapPortType">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="getBalance">
+            <soap:operation soapAction="urn:getBalance"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+        <operation name="getTransactions">
+            <soap:operation soapAction="urn:getTransactions"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+        <operation name="transferFunds">
+            <soap:operation soapAction="urn:transferFunds"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+    </binding>
+
+    <service name="ServiceSoap">
+        <port name="ServiceSoapPort" binding="tns:ServiceSoapBinding">
+            <soap:address location="http://localhost:8080/ws/servicesoap"/>
+        </port>
+    </service>
+</definitions>
